@@ -23,20 +23,20 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build image
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/workshop-app:latest .
+        run: docker build -t kwanpitsinee/workshop-app:latest .
 
       - name: Tag image with commit SHA
-        run: docker tag ${{ secrets.DOCKERHUB_USERNAME }}/workshop-app:latest ${{ secrets.DOCKERHUB_USERNAME }}/workshop-app:${{ github.sha }}
+        run: docker tag kwanpitsinee/workshop-app:latest kwanpitsinee/workshop-app:${{ github.sha }}
 
       - name: Scan image
         uses: aquasecurity/trivy-action@0.35.0
         with:
-          image-ref: ${{ secrets.DOCKERHUB_USERNAME }}/workshop-app:latest
+          image-ref: kwanpitsinee/workshop-app:latest
           severity: CRITICAL
           exit-code: '1'
 
       - name: Push latest tag
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/workshop-app:latest
+        run: docker push kwanpitsinee/workshop-app:latest
 
       - name: Push sha tag
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/workshop-app:${{ github.sha }}
+        run: docker push kwanpitsinee/workshop-app:${{ github.sha }}
